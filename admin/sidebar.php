@@ -33,7 +33,7 @@
                     </li>
                     <li class="nav-item" >
                         <a class="nav-link" href="?page=summary">
-                            <span class="nav-link-text">สรุปยอดคำสั่งซื้อ</span>
+                            <span class="nav-link-text">รายงานการสั่งซื้อ</span>
                         </a>
                     </li>
                 </ul>

@@ -18,7 +18,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="?page=history">
-                            <span class="nav-link-text">ดูรายงานการสั่งซื้อ</span>
+                            <span class="nav-link-text">รายงานการสั่งซื้อ</span>
                         </a>
                     </li>
 

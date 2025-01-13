@@ -92,7 +92,7 @@ include_once "../config.inc.php";
                                                     <td><?php echo $rw['orderDate'] ?></td>
                                                     <td><?php echo $rw['orderFname'] ?></td>
                                                     <td>฿<?php echo number_format($rw['orderTotal']) ?></td>
-                                                    <td><span class="badge bg-warning">
+                                                    <td><span class="badge bg-danger">
                                                             <?php echo str_replace('0', 'รอดำเนินการ', str_replace('1', 'เตรียมสินค้า', str_replace('2', 'จัดส่งสินค้า', $rw['orderStatus']))) ?>
                                                         </span></td>
                                                     <td>
@@ -108,7 +108,80 @@ include_once "../config.inc.php";
                             </div>
                         </div>
                     <?php } else if ($page == 'history') { ?>
+                        <div class="app-wrapper">
+                            <h3 style="margin: 20px;">รายงานการสั่งซื้อ</h3>
+                            <div class="app-content m-5">
+                                <div class="container">
+                                    <div class="row">
+                                        <!-- ฟอร์มกรองวันที่ -->
+                                        <form method="GET" action="main.php">
+                                            <input type="hidden" name="page" value="summary">
+                                            <div class="row g-3">
+                                                <div class="col-md-4">
+                                                    <label class="form-label">วันที่เริ่มต้น</label>
+                                                    <input type="date" name="start_date" class="form-control"
+                                                        value="<?php echo isset($_GET['start_date']) ? $_GET['start_date'] : date('Y-m-d'); ?>">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">วันที่สิ้นสุด</label>
+                                                    <input type="date" name="end_date" class="form-control"
+                                                        value="<?php echo isset($_GET['end_date']) ? $_GET['end_date'] : date('Y-m-d'); ?>">
+                                                </div>
+                                                <div class="col-md-4 align-self-end">
+                                                    <button type="submit" class="btn btn-primary">แสดงรายงาน</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div class="row">
+                                            <div class="col-md-8 mt-4">
+                                                <?php
+                                                $start_date = isset($_GET['start_date']) ? $_GET['start_date'] : date('Y-m-d');
+                                                $end_date = isset($_GET['end_date']) ? $_GET['end_date'] : date('Y-m-d');
 
+
+                                                $sql = $conn->query("SELECT 
+                                                orders.orderDate,
+                                                SUM(orders.orderTotal) AS total_sales,
+                                                COUNT(orders.orderID ) AS total_orders 
+                                            FROM 
+                                                orders
+                                            WHERE 
+                                                orders.orderDate BETWEEN '$start_date' AND '$end_date'
+                                            GROUP BY 
+                                                orders.orderDate");
+
+                                                $total_sales = 0;
+                                                ?>
+                                                <h4>รายงานยอดขาย</h4>
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>วันที่</th>
+                                                            <th>ยอดขาย (บาท)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php
+                                                        while ($rw = $sql->fetch_assoc()) {
+                                                            $total_sales += $rw['total_sales'];
+                                                        ?>
+                                                            <tr>
+                                                                <td><?php echo $rw['orderDate']; ?></td>
+                                                                <td><?php echo number_format($rw['total_sales'], 2); ?></td>
+                                                            </tr>
+                                                        <?php } ?>
+                                                        <tr>
+                                                            <td><b>รวม</b></td>
+                                                            <td><b><?php echo number_format($total_sales, 2); ?></b></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     <?php } ?>
                     </div>
             </div>
@@ -133,7 +206,7 @@ include_once "../config.inc.php";
                                     <p><strong>เวลาสั่งซื้อ:</strong> <?php echo $rw['orderDate'] ?></p>
                                 </div>
                                 <div class="col-md-6">
-                                    <p><strong>สถานะ:</strong> <span class="badge bg-warning">
+                                    <p><strong>สถานะ:</strong> <span class="badge bg-danger">
                                             <?php echo str_replace('0', 'รอดำเนินการ', str_replace('1', 'เตรียมสินค้า', str_replace('2', 'จัดส่งสินค้า', $rw['orderStatus']))) ?>
                                         </span></p>
                                     <p><strong>ราคารวม:</strong> ฿<?php echo number_format($rw['orderTotal']) ?></p>

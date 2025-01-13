@@ -225,22 +225,45 @@ include_once "../config.inc.php";
                         </div>
                     <?php } else if ($page == 'orderInfo') { ?>
                         <div class="app-wrapper">
-                            <h3 style="margin: 20px;">รายการสั่งซื้อทั้งหมด</h3>
+                            <h3 style="margin: 20px;">ข้อมูลคำสั่งซื้อ</h3>
                             <div class="app-content m-5">
                                 <div class="container">
                                     <div class="row">
-                                        <table class="table">
-                                            <tr>
-                                                <th>รหัสคำสั่งซื้อ</th>
-                                                <th>รายการสินค้า</th>
-                                                <th>จำนวน</th>
-                                                <th>ราคา</th>
-                                                <th>Tools</th>
-                                            </tr>
+                                        <table class="table text-center">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th>เวลา</th>
+                                                    <th>ชื่อผู้สั่ง</th>
+                                                    <th>ราคารวม</th>
+                                                    <th>สถานะ</th>
+                                                    <th>การจัดการ</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $sql = "SELECT * FROM orders";
+                                                $rs = mysqli_query($conn, $sql);
+                                                while ($rw = mysqli_fetch_assoc($rs)) { ?>
+                                                    <tr>
+                                                        <td><?php echo $rw['orderDate'] ?></td>
+                                                        <td><?php echo $rw['orderFname'] ?></td>
+                                                        <td>฿<?php echo number_format($rw['orderTotal']) ?></td>
+                                                        <td><span class="badge bg-danger">
+                                                                <?php echo str_replace('0', 'รอดำเนินการ', str_replace('1', 'เตรียมสินค้า', str_replace('2', 'จัดส่งสินค้า', $rw['orderStatus']))) ?>
+                                                            </span></td>
+                                                        <td>
+                                                            <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#orderDetail<?php echo $rw['orderID'] ?>">
+                                                                ดูรายละเอียด
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                <?php } ?>
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
                             </div>
+
                         <?php } else if ($page == 'type') { ?>
                             <div class="app-wrapper">
                                 <div class="app-content m-4">
@@ -324,7 +347,7 @@ include_once "../config.inc.php";
                             </div>
                         <?php } else if ($page == 'summary') { ?>
                             <div class="app-wrapper">
-                                <h3 style="margin: 20px;">สรุปยอดคำสั่งซื้อ</h3>
+                                <h3 style="margin: 20px;">รายงานการสั่งซื้อ</h3>
                                 <div class="app-content m-5">
                                     <div class="container">
                                         <div class="row">
@@ -348,22 +371,22 @@ include_once "../config.inc.php";
                                                 </div>
                                             </form>
                                             <div class="row">
-                                                <div class="col-md-8">
+                                                <div class="col-md-8 mt-4">
                                                     <?php
                                                     $start_date = isset($_GET['start_date']) ? $_GET['start_date'] : date('Y-m-d');
                                                     $end_date = isset($_GET['end_date']) ? $_GET['end_date'] : date('Y-m-d');
 
 
                                                     $sql = $conn->query("SELECT 
-                                                tb_orders.order_date,
-                                                SUM(tb_orders.order_total) AS total_sales,
-                                                COUNT(tb_orders.order_id) AS total_orders 
+                                                orders.orderDate,
+                                                SUM(orders.orderTotal) AS total_sales,
+                                                COUNT(orders.orderID ) AS total_orders 
                                             FROM 
-                                                tb_orders
+                                                orders
                                             WHERE 
-                                                tb_orders.order_date BETWEEN '$start_date' AND '$end_date'
+                                                orders.orderDate BETWEEN '$start_date' AND '$end_date'
                                             GROUP BY 
-                                                tb_orders.order_date");
+                                                orders.orderDate");
 
                                                     $total_sales = 0;
                                                     ?>
@@ -381,7 +404,7 @@ include_once "../config.inc.php";
                                                                 $total_sales += $rw['total_sales'];
                                                             ?>
                                                                 <tr>
-                                                                    <td><?php echo $rw['order_date']; ?></td>
+                                                                    <td><?php echo $rw['orderDate']; ?></td>
                                                                     <td><?php echo number_format($rw['total_sales'], 2); ?></td>
                                                                 </tr>
                                                             <?php } ?>
@@ -506,6 +529,67 @@ include_once "../config.inc.php";
                 </div>
 
             <?php } ?>
+
+
+            <!-- modal view product-->
+            <?php
+            $sql = "SELECT * FROM orders LEFT JOIN tb_account ON orders.orderUID = tb_account.id";
+            $rs = mysqli_query($conn, $sql);
+            while ($rw = mysqli_fetch_assoc($rs)) {
+            ?>
+                <!-- Modal แสดงรายละเอียดสินค้า -->
+                <div class="modal fade" id="orderDetail<?php echo $rw['orderID'] ?>" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">รายละเอียดคำสั่งซื้อ</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <p><strong>ชื่อผู้สั่ง:</strong> <?php echo $rw['fullname'] ?> </p>
+                                        <p><strong>เวลาสั่งซื้อ:</strong> <?php echo $rw['orderDate'] ?></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><strong>สถานะ:</strong> <span class="badge bg-danger">
+                                                <?php echo str_replace('0', 'รอดำเนินการ', str_replace('1', 'เตรียมสินค้า', str_replace('2', 'จัดส่งสินค้า', $rw['orderStatus']))) ?>
+                                            </span></p>
+                                        <p><strong>ราคารวม:</strong> ฿<?php echo number_format($rw['orderTotal']) ?></p>
+                                    </div>
+                                </div>
+                                <h6>รายการสินค้า</h6>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>สินค้า</th>
+                                            <th>จำนวน</th>
+                                            <th>ราคาต่อชิ้น</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $getDetail = "SELECT * FROM orders_detail WHERE orderID = " . $rw['orderID'];
+                                        $res = mysqli_query($conn, $getDetail);
+                                        while ($row = mysqli_fetch_assoc($res)) {
+                                        ?>
+                                            <tr>
+                                                <td><?php echo $row['productName'] ?></td>
+                                                <td><?php echo $row['productPrice'] ?></td>
+                                                <td><?php echo $row['productQty'] ?></td>
+                                            </tr>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    <?php } ?>
 </body>
 
 </html>

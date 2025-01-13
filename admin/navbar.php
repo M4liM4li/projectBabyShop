@@ -23,7 +23,7 @@
                 <span class="ms-2 text-white">Admin</span>
             </a>
             <div class="dropdown-menu dropdown-menu-end custom-dropdown mt-2" >
-                <a href="#" class="dropdown-item">แก้ไขข้อมูลส่วนตัว</a>
+                <a href="editprofile.php" class="dropdown-item">แก้ไขข้อมูลส่วนตัว</a>
                 <a href="#" class="dropdown-item">ติดต่อ</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="../index.php">ออกจากระบบ</a>

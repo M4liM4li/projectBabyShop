@@ -46,8 +46,8 @@ if (isset($_GET['remove'])) {
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav mx-auto text-center">
-                <a href="#" class="nav-item nav-link text-white">สินค้าทั้งหมด</a>
-                <a href="#" class="nav-item nav-link text-white">ติดต่อร้านค้า</a>
+                <a href="main.php?page=home" class="nav-item nav-link text-white">หน้าหลัก</a>
+                <a href="#" class="nav-item nav-link text-white">ติดต่อ</a>
             </div>
             <div class="nav-item dropdown ms-auto d-flex align-items-center">
                 <button class="me-4 busket" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" aria-controls="cartOffcanvas">
@@ -58,8 +58,8 @@ if (isset($_GET['remove'])) {
                     <span class="ms-2">ผู้ใช้งาน</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end mt-3">
-                    <li><a href="#" class="dropdown-item">แก้ไขข้อมูลส่วนตัว</a></li>
-                    <li><a href="#" class="dropdown-item">รายการโปรด</a></li>
+                    <li><a href="../admin/editprofile.php" class="dropdown-item">แก้ไขข้อมูลส่วนตัว</a></li>
+                    <li><a href="#" class="dropdown-item">สถานะคำสั่งซื้อ</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>

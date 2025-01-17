@@ -56,7 +56,7 @@ include_once "../config.inc.php";
                         </div>
 
                         <hr style="margin: 50px 5px;">
-                        <h4 class="col m-4">รายการสินค้า</h4>
+                        <h4 class="col m-4">รายการสินค้า<?php echo $_SESSION['id']?></h4>
                         <div class="row">
                             <?php
                             $type = $_GET['type'];

@@ -3,11 +3,10 @@ $host = "localhost";
 $user_con = "root";
 $pass_con = "";
 $db = "sales";
+
 session_start();
 $conn = mysqli_connect($host, $user_con, $pass_con, $db);
 mysqli_set_charset($conn, "utf8");
-
-error_reporting(1);
 
 function getUid($uid)
 {

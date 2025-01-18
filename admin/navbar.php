@@ -19,8 +19,8 @@
 
         <div class="nav-item dropdown ms-auto d-flex align-items-center">
             <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
-                <img src="../image/cat6.jpg" class="dropdown-item-img" alt="Profile Image">
-                <span class="ms-2 text-white">Admin</span>
+                <img src="../image/<?php echo getUid($_SESSION['id'])['image']?>" class="dropdown-item-img" alt="Profile Image">
+                <span class="ms-2 text-white"><?php echo getUid($_SESSION['id'])['fullname']?></span>
             </a>
             <div class="dropdown-menu dropdown-menu-end custom-dropdown mt-2" >
                 <a href="editprofile.php" class="dropdown-item">แก้ไขข้อมูลส่วนตัว</a>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 12, 2025 at 06:33 AM
+-- Generation Time: Jan 18, 2025 at 03:36 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,7 +42,9 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`orderID`, `orderFname`, `orderTotal`, `orderStatus`, `orderUid`, `orderDate`, `slip`) VALUES
-(60, 'ผู้ใช้งาน', 1481, 2, 2, '2025-01-11 00:09:17', '');
+(60, 'ผู้ใช้งาน', 1481, 2, 2, '2025-01-11 00:09:17', ''),
+(61, 'ผู้ใช้งาน', 2262, 2, 2, '2025-01-12 02:36:07', ''),
+(62, 'ผู้ใช้งาน', 736, 2, 2, '2025-01-13 03:36:25', '');
 
 -- --------------------------------------------------------
 
@@ -65,7 +67,12 @@ CREATE TABLE `orders_detail` (
 
 INSERT INTO `orders_detail` (`detailID`, `productName`, `productPrice`, `productQty`, `orderID`, `proID`) VALUES
 (44, 'สควิชแมลโลว์', '368', '2', 60, '88000000000'),
-(45, 'Squishmallows 12 Inch Morton', '745', '1', 60, '88000000001');
+(45, 'Squishmallows 12 Inch Morton', '745', '1', 60, '88000000001'),
+(46, 'Squishmallows 12 Inch Morton', '745', '1', 61, '88000000001'),
+(47, 'สควิชแมลโลว์', '368', '1', 61, '88000000000'),
+(48, 'Wearable Unicorn Bag', '699', '1', 61, '88000000002'),
+(49, 'Squishmallows 7.5 Cordea', '450', '1', 61, '88000000003'),
+(50, 'สควิชแมลโลว์', '368', '2', 62, '88000000000');
 
 -- --------------------------------------------------------
 
@@ -148,17 +155,18 @@ CREATE TABLE `tb_account` (
   `username` varchar(25) NOT NULL,
   `password` varchar(25) NOT NULL,
   `fullname` varchar(50) NOT NULL,
-  `level` int(2) NOT NULL
+  `level` int(2) NOT NULL,
+  `image` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_account`
 --
 
-INSERT INTO `tb_account` (`id`, `username`, `password`, `fullname`, `level`) VALUES
-(2, 'user', '123', 'ผู้ใช้งาน', 1),
-(3, 'seller', '123', 'พนักงานขาย', 50),
-(7, 'admin', '123', 'ผู้ดูแลระบบ', 99);
+INSERT INTO `tb_account` (`id`, `username`, `password`, `fullname`, `level`, `image`) VALUES
+(2, 'userx', '123', 'ผู้ใช้งาน', 1, 'img_678bb7da88909.png'),
+(3, 'sellerx', '1234', 'พนักงานขาย', 50, 'img_678bbbd54ccf9.png'),
+(7, 'admin', '123', 'ผู้ดูแลระบบ', 99, 'img_678bbc1b394de.png');
 
 --
 -- Indexes for dumped tables
@@ -206,13 +214,13 @@ ALTER TABLE `tb_account`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `orderID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `orderID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `orders_detail`
 --
 ALTER TABLE `orders_detail`
-  MODIFY `detailID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `detailID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `product_type`
@@ -224,7 +232,7 @@ ALTER TABLE `product_type`
 -- AUTO_INCREMENT for table `tb_account`
 --
 ALTER TABLE `tb_account`
-  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- Constraints for dumped tables

@@ -54,11 +54,11 @@ if (isset($_GET['remove'])) {
                     <img src="../image/basket11.png" alt="Cart" width="30px">
                 </button>
                 <a href="#" class="nav-link dropdown-toggle d-flex align-items-center text-white" data-bs-toggle="dropdown">
-                    <img src="../image/userBiew.jpg" class="dropdown-item-img" alt="User">
-                    <span class="ms-2">ผู้ใช้งาน</span>
+                    <img src="../image/<?php echo getUid($_SESSION['id'])['image']?>" class="dropdown-item-img" alt="User">
+                    <span class="ms-2"><?php echo getUid($_SESSION['id'])['fullname']?></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end mt-3">
-                    <li><a href="../admin/editprofile.php" class="dropdown-item">แก้ไขข้อมูลส่วนตัว</a></li>
+                    <li><a href="editprofile.php" class="dropdown-item">แก้ไขข้อมูลส่วนตัว</a></li>
                     <li><a href="#" class="dropdown-item">สถานะคำสั่งซื้อ</a></li>
                     <li>
                         <hr class="dropdown-divider">
